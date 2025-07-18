@@ -102,3 +102,13 @@
     background-color: #fff;
   }
 }
+
+.card-title {
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.4em 0.6em;
+}

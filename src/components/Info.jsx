@@ -16,8 +16,7 @@ const Info = () => {
     async function fetchData() {
       try {
         const response = await axios.get(url);
-     
-        setData(response.data); // usa a ordem que veio da API
+        setData(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -34,25 +33,24 @@ const Info = () => {
 
   const getBadgeClass = (type) => {
     switch (type) {
-      case 'INFO': return 'badge bg-info-subtle';
-      case 'WARNING': return 'badge bg-warning-subtle';
-      case 'ERROR': return 'badge bg-danger-subtle';
-      case 'SUCCESS': return 'badge bg-success-subtle';
-      default: return 'badge bg-secondary';
+      case 'INFO': return 'badge text-bg-info';
+      case 'WARNING': return 'badge text-bg-warning';
+      case 'ERROR': return 'badge text-bg-danger';
+      case 'SUCCESS': return 'badge text-bg-success';
+      default: return 'badge text-bg-secondary';
     }
   };
 
   return (
-    <div className="container mt-5">
-      <div className="card">
-        <div className="card-body">
-          <h3 className="mb-4">Logs da API</h3>
+    <div className="container mt-4">
+      <div className="card shadow-sm rounded-4 border-0">
+        <div className="card-body p-4">
+          <h5 className="card-title fw-semibold text-dark mb-4">Registros recentes</h5>
 
-          {/* Opcional: remover seleção de itens por página ou manter */}
-          <div className="mb-4 d-flex justify-content-end align-items-center">
-            <label className="form-label me-2">Itens por página:</label>
+          <div className="mb-3 d-flex justify-content-end align-items-center">
+            <label className="form-label me-2 mb-0">Itens por página:</label>
             <select
-              className="form-select form-select-sm d-inline-block w-auto"
+              className="form-select form-select-sm w-auto"
               value={itemsPerPage}
               onChange={e => {
                 setItemsPerPage(Number(e.target.value));
@@ -65,44 +63,46 @@ const Info = () => {
             </select>
           </div>
 
-          <table className="table table-hover">
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Tipo</th>
-                <th>Origem</th>
-                <th>Mensagem</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentData.map((log, i) => (
-                <tr key={i}>
-                  <td>{log.timestamp}</td>
-                  <td><span className={getBadgeClass(log.type)}>{log.type}</span></td>
-                  <td>{log.origin}</td>
-                  <td>{log.message}</td>
+          <div className="table-responsive">
+            <table className="table table-hover align-middle">
+              <thead className="table-light">
+                <tr>
+                  <th>Data</th>
+                  <th>Tipo</th>
+                  <th>Origem</th>
+                  <th>Mensagem</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {currentData.map((log, i) => (
+                  <tr key={i}>
+                    <td className="text-muted">{log.timestamp}</td>
+                    <td><span className={getBadgeClass(log.type)}>{log.type}</span></td>
+                    <td>{log.origin}</td>
+                    <td>{log.message}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-          <div className="d-flex justify-content-between align-items-center mt-4">
+          <div className="d-flex justify-content-between align-items-center mt-3">
             <button
-              className="btn btn-outline-primary"
+              className="btn btn-outline-secondary btn-sm"
               onClick={handlePrevious}
               disabled={currentPage === 1}
             >
-              Anterior
+              <i className="bi bi-chevron-left me-1"></i> Anterior
             </button>
-            <span className="text-muted">
-              Página {currentPage} de {totalPages}
+            <span className="text-muted small">
+              Página <strong>{currentPage}</strong> de <strong>{totalPages}</strong>
             </span>
             <button
-              className="btn btn-outline-primary"
+              className="btn btn-outline-secondary btn-sm"
               onClick={handleNext}
               disabled={currentPage === totalPages}
             >
-              Próxima
+              Próxima <i className="bi bi-chevron-right ms-1"></i>
             </button>
           </div>
         </div>
